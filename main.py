@@ -1,8 +1,32 @@
+"""
+main.py — Demo Runner for the Customer Support Ticket Routing Agent
+====================================================================
+
+This script demonstrates the agent by processing a set of sample
+support tickets that cover different scenarios:
+
+    - **TICKET-001**: Billing issue (duplicate charge / refund request).
+    - **TICKET-002**: Critical outage (production server down).
+    - **TICKET-003**: Sales inquiry (bulk educational licensing).
+
+For each ticket the full 4-step pipeline is executed and the results
+are pretty-printed to the console:
+
+    1. Analysis   — intent, sentiment, urgency, summary.
+    2. Classification — department, priority, reason.
+    3. Entity Extraction — customer name, order ID, contact info, etc.
+    4. Generated Response — customer reply, internal note, escalation flag.
+
+Usage::
+
+    # Make sure GROQ_API_KEY is set in your environment
+    python main.py
+"""
+
 import json
 from agent import process_ticket, _safe_json
 
-SAMPLE_TICKETS = [
-    {
+{
         "id": "TICKET-001",
         "text": (
             "Hi, I'm John Smith (order #ORD-98432). I was charged twice for my "
@@ -32,6 +56,12 @@ SAMPLE_TICKETS = [
 
 
 def print_section(title: str, content: str):
+    """Print a labelled, boxed section with pretty-printed JSON content.
+
+    Args:
+        title:   Section heading (e.g. '1. ANALYSIS').
+        content: Raw string (typically JSON) to display.
+    """
     print(f"\n{'='*60}")
     print(f"  {title}")
     print(f"{'='*60}")
@@ -39,6 +69,7 @@ def print_section(title: str, content: str):
 
 
 def main():
+    """Iterate over sample tickets, process each through the agent, and display results."""
     for ticket in SAMPLE_TICKETS:
         print(f"\n{'#'*60}")
         print(f"  PROCESSING: {ticket['id']}")
